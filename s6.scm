@@ -44,9 +44,22 @@
   (lambda (a b)
     (if (> a b) (se a b) (se b a))))
 
-;(define valid-date?
-;  (lambda (m d y)
-;    (
+(define days31?
+  (lambda (m)
+    (if 
+      (or 
+	(and (not (even? m)) (< m 8)) 
+	(and (> m 7) (even? m))
+	)
+      #t #f) 
+    ))
+
+;; 31 days: 01 03 05 07 08 10 12
+(define valid-date?
+  (lambda (m d y)
+    (cond
+      (= m
+
 (define divisable?
   (lambda (a b)
     (if (= (modulo a b) 0) #t #f)))
@@ -54,5 +67,9 @@
 (define leap-year?
   (lambda (y)
     (cond
-      (and ((divisable? y 4) (not(divisable? 100) #t))))
+      ( (and (divisable? y 4) (not (divisable? y 100)) ) #t)
+      ( (and (divisable? y 4) (divisable? y 100) (divisable? y 400) ) #t)
+      (else #f))))
+
+
 	 
