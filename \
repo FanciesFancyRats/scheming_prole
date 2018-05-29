@@ -1,0 +1,45 @@
+(define e-time
+  (lambda (t ampm)
+    (cond
+      ((= 12 t) 
+       (if (equal? ampm 'am) 0 12))
+      ((equal? ampm 'am) t)
+      (else (+ t 12)))))
+
+(define a-time
+  (lambda (t)
+    (cond
+      ((= 0 t) (word '12 '" " 'am))
+      ((= 12 t) (word '12 " " 'pm))
+      ((> 12 t) (word t 'am))
+      (#t (word (- t 12) '" " 'pm)))))
+
+(define type-of
+  (lambda (x)
+    (cond
+      ((boolean? x) 'Boolean)
+      ((number? x) 'Number)
+      ((list? x) 'Sentence)
+      ((word? x) 'Word))))
+
+(define teen?
+  (lambda (x)
+    (if (and (> x 12) (< x 20)) #t #f)))
+
+(define indef-article
+  (lambda (x)
+    (if (member (first x) '(a e i o))
+      (se 'an x)
+      (se 'a x)))) 
+
+(define this-many
+  (lambda (x thing)
+    (if (> x 1) (se  x (plural thing)) (se x thing))))
+
+(define plural
+  (lambda (thing)
+    (word thing 's)))
+
+(define sort2
+  (lambda (a b)
+    (if (> a b) (se a b) (se b a))))
