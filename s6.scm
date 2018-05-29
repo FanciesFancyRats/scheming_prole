@@ -57,8 +57,11 @@
 ;; 31 days: 01 03 05 07 08 10 12
 (define valid-date?
   (lambda (m d y)
-    (cond
-      (= m
+    (if (> d 31) #f
+	(if (> m 12) #f 
+    	  (if 
+	    (not 
+	      (or (and (= m 2) (= d 29) (leap-year? y))(> 2 1) )))))))
 
 (define divisable?
   (lambda (a b)
