@@ -59,9 +59,10 @@
   (lambda (m d y)
     (if (> d 31) #f
 	(if (> m 12) #f 
-    	  (if 
-	    (not 
-	      (or (and (= m 2) (= d 29) (leap-year? y))(> 2 1) )))))))
+	  (if
+	    (not
+	      (or
+		(not(= m 2)) (leap-year? y))) #f #t)))))
 
 (define divisable?
   (lambda (a b)
