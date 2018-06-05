@@ -68,3 +68,31 @@
 
 (define (gpa sent)
   (/ (accumulate + (every grade-point sent)) (count sent)))
+
+(define (is-um? wrd)
+  (if (equal? wrd 'um) #t #f))
+
+(define (count-ums sent)
+  (count (keep is-um? sent)))
+
+(define (letter-to-number ltr)
+  (cond
+    ((member? ltr '(a b c)) 2)
+    ((member? ltr '(d e f)) 3)
+    ((member? ltr '(g h i)) 4)
+    ((member? ltr '(j k l)) 5)
+    ((member? ltr '(m n o)) 6)
+    ((member? ltr '(p q r s)) 7)
+    ((member? ltr '(t u v)) 8)
+    ((member? ltr '(w x y z)) 9)
+    (else 0)))
+
+(define (phone-unspell wrd)
+  (every letter-to-number wrd))
+
+(define (subword wrd start finish)
+  ((repeated bl 
+	     (- 
+	       (count wrd) 
+	       finish)) 
+   ((repeated bf (- start 1)) wrd)))
