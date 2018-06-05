@@ -17,12 +17,54 @@
   (if (equal? (first alphabet) ltr) n
     (get-letter-number-iter ltr (+ n 1) (bf alphabet))))
 
-(define alpha-words '(aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz))
+(define alpha-words '(anguish blood cryptic destiny existential fevor galaxy heavensent indignation judgement knife lament momentomori now obligation perpetual quintessential remember starscape terror unimaginable variable witness xenomorphic yielding zealotry))
+
 
 (define (get-alpha-word n)
-  (get-alpha-word-iter n 1))
+  (get-alpha-word-iter n 1 alpha-words))
 
-(define (get-apha-word n count)
-  (if (= n count)
+(define (get-alpha-word-iter n count lst)
+  (if (= n count) (first lst)
+    (get-alpha-word-iter n (+ count 1) (bf lst))))
 
-    ;;;Have this helper return the "letter of that number" 
+(define (get-word ltr)
+  (get-alpha-word (get-letter-number ltr)))
+
+(define (words wrd)
+  (every get-word wrd))
+
+(define (letter-count wrd)
+ (accumulate + (every count wrd)))
+
+(define (exaggerate-word wrd)
+  (cond
+    ((number? wrd) (+ wrd 3))
+    ((equal? wrd 'good) 'great)
+    ((equal? wrd 'bad) 'terrible)
+    (else wrd)))
+
+(define (exaggerate-sent sent)
+  (every exaggerate-word sent))
+
+(define (true-for-all pred sent)
+  (equal? sent (keep pred sent)))
+
+(define (grade-modify x)
+  (cond
+    ((equal? x '+) .33)
+    ((equal? x '-) -0.33)
+    (else 0)))
+
+(define (grade-base ltr)
+  (cond
+    ((equal? ltr 'a) 4)
+    ((equal? ltr 'b) 3)
+    ((equal? ltr 'c) 2)
+    ((equal? ltr 'd) 1)
+    ((equal? ltr 'f) 0)))
+
+(define (grade-point wrd)
+  (+ (grade-base (first wrd)) (grade-modify (bf wrd))))
+
+(define (gpa sent)
+  (/ (accumulate + (every grade-point sent)) (count sent)))
