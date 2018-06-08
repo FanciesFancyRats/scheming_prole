@@ -19,5 +19,8 @@
 (define (hang-letters letter guesses)
   (if (member? letter guesses) letter '-))
 
-;(define (hang letter guesses)
-;  (
+(define (appear? wrd sent)
+  (member? wrd sent))
+
+(define (appearances wrd sent)
+  (count (keep (lambda (x) (member? wrd sent)) wrd))) ;; need this to be a function, honestly not sure why this one is so tricky?j 
