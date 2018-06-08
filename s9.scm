@@ -16,8 +16,26 @@
 (define (letterwords ltr sent)
   (keep (lambda (wrd) (if (member? ltr wrd) #t #f)) sent))
 
-(define (hang-letters letter guesses)
-  (if (member? letter guesses) letter '-))
+;(define (hang-letters letter guesses)
+;  (if (member? letter guesses) letter '-))
 
-;(define (hang letter guesses)
-;  (
+(define (hang wrd guesses)
+  (se (every (lambda (letter) (if (member? letter guesses) letter '-)) wrd)))
+
+(define hang2 
+  (lambda (wrd guesses)
+    (define hang-letters
+      (lambda (letter)
+	(if
+	  (member? letter guesses) letter '-)))
+    (se
+      (every hang-letters wrd))))
+;;interesting...
+
+(define common-words
+  (lambda (sent1 sent2)
+    (define in-both?
+      (lambda (wrd)
+	(if (member? wrd sent2) #t #f)))
+    (se (keep in-both? sent1))))
+
