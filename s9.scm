@@ -19,8 +19,29 @@
 (define (hang-letters letter guesses)
   (if (member? letter guesses) letter '-))
 
-(define (appear? wrd sent)
-  (member? wrd sent))
+
 
 (define (appearances wrd sent)
-  (count (keep (lambda (x) (member? wrd sent)) wrd))) ;; need this to be a function, honestly not sure why this one is so tricky?j 
+  (count (keep (lambda (sent) (member? wrd sent)) sent)))
+
+(define (unabrev sent1 sent2)
+  (se (every (lambda (x) (if (number? x) (item x sent2) x)) sent1)))
+
+(define (first-last sent)
+  (keep (lambda (wrd) (equal? (first wrd) (last wrd))) sent))
+
+(define (compose f g)
+  (lambda (x) (f (g x))))
+
+(define (substitute sub target sent)
+  (se (every (lambda (x) (if (equal? x target) sub x)) sent)))
+
+(define (type-check fn pred)
+  (lambda (x) (if (pred x) (fn x) #f)))
+
+(define (aplize fn)
+  (lambda (x) (if (sentence? x) (se (every fn x)) (fn x))))
+
+(define (notkeep lst pred)
+  (se (every (lambda (x) (if (pred x) x ())) lst)))
+
