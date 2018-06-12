@@ -26,5 +26,7 @@
 (define (add2 n)
   (+ n 2))
 
+
 (define (a2e lst)
   (every add2 lst))
+

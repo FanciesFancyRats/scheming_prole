@@ -47,3 +47,53 @@
     ((and (equal? 'um (first sent)) (not (number? (last sent)))) (count-ums (se (bf sent) 1)))
     ((and (not (equal? 'um (first sent))) (not (number? (last sent))) (count-ums (se (bf sent) 0))))
     (else (count-ums (bf sent)))))
+
+(define (is-um? wrd)
+  (if (equal? wrd 'um) #t #f))
+
+(define (count-ums2 sent)
+  (cond
+    ((null? (bf sent)) (if (is-um? (first sent)) 1 0))
+    (else (+ (if (is-um?(first sent)) 1 0) (count-ums2 (bf sent))))))
+
+(define (unspell-letter letter)
+  (cond
+    ((member? letter 'abc) 2)
+    ((member? letter 'def) 3)
+    ((member? letter 'ghi) 4)
+    ((member? letter 'jkl) 5)
+    ((member? letter 'mno) 6)
+    ((member? letter 'prs) 7)
+    ((member? letter 'tuv) 8)
+    ((member? letter 'wxy) 9)
+    (else 0)))
+
+(define (phone-unspell wrd)
+  (cond
+    ((= (count wrd) 1) (unspell-letter wrd))
+    (else (word (unspell-letter (first wrd)) (phone-unspell (bf wrd))))))
+
+(define (initials sent)
+  (cond
+    ((= (count sent) 1) (first(first sent)))
+    (else (se (first (first sent)) (initials (bf sent))))))
+
+(define (blastoff n)
+  (if (> n 0)
+    (se n (blastoff (- n 1)))
+    'blastoff))
+
+(define (copies n wrd)
+  (if (> n 1)
+    (se wrd (copies (- n 1) wrd))
+    wrd))
+
+(define (reverser wrd)
+  (if (= (count wrd) 1)
+    wrd
+    (word (last wrd) (reverser (bl wrd)))))
+
+(define (factorial n)
+  (if (= n 1) 
+    n
+    (* n (factorial (- n 1)))))
