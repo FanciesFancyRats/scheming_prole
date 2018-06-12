@@ -72,3 +72,40 @@
   (if (empty? sent)
     '()
     (se (returns-numbers (first sent)) (onlynumber (bf sent)))))
+
+(define (real-word? wrd)
+  (if (member wrd '(the of an a for)) #f #t))
+
+(define (real-words sent)
+  (if (null? sent)
+    '()
+    (se (if (real-word? (first sent)) (first sent) '()) (real-words (bf sent)))))
+
+(define (remover wrd sent)
+  (if (null? sent)
+    '()
+    (se (if (equal? wrd (first sent)) '() (first sent)) (remover wrd (bf sent)))))
+
+(define (count sent)
+  (if (null? sent)
+    0
+    (+ 1 (count (bf sent)))))
+
+(define (roman-digit ltr)
+  (cond
+    ((equal? 'i ltr) 1)
+    ((equal? 'v ltr) 5)
+    ((equal? 'x ltr) 10)
+    ((equal? 'l ltr) 50)
+    ((equal? 'c ltr) 100)
+    ((equal? 'd ltr) 500)
+    ((equal? 'm ltr) 1000)
+    (else 0)))
+
+(define (arabic num)
+  (if (empty? num)
+    0
+    (if (> (roman-digit (first num)) (roman-digit (first(bf num)))) 
+      (+ (roman-digit (first num)) (arabic (bf num)))
+      (- (roman-digit (first num)) (arabic (bf num))))))
+
